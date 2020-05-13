@@ -7,6 +7,7 @@
 import flask
 import pathlib
 
+from app.data import db_session
 from app.utils.register_blueprints import add_blueprints_from_dir
 
 flask_app = flask.Flask(__name__)
@@ -20,6 +21,12 @@ def register_blueprints(used_flask_app: any):
     # from app.views import package_views
     # used_flask_app.register_blueprint(home_views.app_bp)
     # used_flask_app.register_blueprint(package_views.app_bp)
+
+
+def setup_db():
+    current = pathlib.Path.cwd()
+    db_file = pathlib.Path.joinpath(current, 'src', 'app', 'db', 'pypi.sqlite3')
+    db_session.global_init(db_file.as_posix())
 
 
 @flask_app.template_filter()
